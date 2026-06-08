@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { reserveBook, getBooks } from "../reservations"
 import { useAuth } from "../auth/AuthContext";
 
+
 export default function BookDetails() {
     const { token } = useAuth();
     const { id } = useParams();

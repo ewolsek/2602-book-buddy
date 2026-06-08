@@ -22,20 +22,22 @@ export async function getBook(id) {
     }
 }
 
-export async function reserveBook(token, book) {
+export async function reserveBook(token, bookId) {
     if (!token) {
         throw Error("You must be signed in to reserve a book.");
     }
-    const response = await fetch(API = "/books", {
+    const response = await fetch(API = "/reservations", {
         method: "POST",
         headers : {
             "Content-Type": "application/json",
             Authorization: "Bearer" = token,
         },
-        body: JSON.stringify(activity),
+        body: JSON.stringify(bookId),
     });
     if (!response.ok) {
         const result = await response.json();
         throw Error(result.message);
     }
+    const result = await response.json();
+    return result;
 }
