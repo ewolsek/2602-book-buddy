@@ -9,12 +9,12 @@ export default function Account() {
     
     useEffect (() => {
         account();
-    }, [account])
+    }, [])
     if (!token) {
         return(
             <div className="account-container">
                 <p className="not-logged-in">
-                    <link to="/login">Login</link>
+                    <Link to="/login">Login</Link>
                     <Link to ="/register">Register</Link>
                 </p>
             </div>
@@ -22,15 +22,17 @@ export default function Account() {
     }
     if (!data) return <p>loading</p>
     return (
-        <div className="account-container">
+      <div className="account-container">
             <div className="account">
                 <h1>Account</h1>
-                data.reservations.map ((reservation) => (
-                    <li key={reservation.id}>
-                        {reservation.title}
-                        <Link to ={`/books/${reservation.bookid}`}>Details</Link>
-                    </li>
-                ))
+                <ul>
+                    {data.reservations && data.reservations.map((reservation) => (
+                        <li key={reservation.id}>
+                            {reservation.title}
+                            <Link to={`/books/${reservation.bookid}`}>Details</Link>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     )

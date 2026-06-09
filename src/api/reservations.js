@@ -1,4 +1,4 @@
-const APi = import.meta.env.VITE_API;
+const API = import.meta.env.VITE_API;
 
 export async function getReservations() {
     try {
@@ -21,14 +21,47 @@ export async function getReservation(id) {
     }
 }
 
-export async function reserveBook(token, id) {
-    const response = await fetch(API + "/reservations" + id, {
-        method: "DELETE",
-        headers: { Authorization: "Bearer" = token },
+export async function reserveBook(token, bookId) {
+    if (!token) {
+        throw Error("You must be logged in to reserve a book");
+    }
+    const response = await fetch(API + "/reservations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ bookId }),
     });
 
     if (!response.ok) {
         const result = await response.json();
         throw Error(result.message);
     }
+    return await response.json();
+}
+export async function getBooks(id) {
+    const response = await fetch(API + "/books/" + id);
+    if (!response.ok) {
+        throw Error("Failed to fetch book details.");
+    }
+    const result = await response.json();
+    return result.book || result; 
+}
+export async function returnBook(token, reservationId) {
+    if (!token) {
+        throw Error("You must be logged in to return a book");
+    }
+    
+    const response = await fetch(API + "/reservations/" + reservationId, {
+        method: "DELETE",
+        headers: { 
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+    });
+
+    if (!response.ok) {
+        const result = await response.json();
+        throw Error(result.message || "Failed to return the book.");
+    }
+
+    return await response.json();
 }

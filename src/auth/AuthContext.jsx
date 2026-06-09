@@ -8,28 +8,40 @@ export function AuthProvider({ children }) {
     const [data, setData]= useState ();
 
     const register = async (credentials) => {
-        const response = await fetch API = "/users/register", {
+        const response = await fetch (API + "/users/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(credentials),
-        };
-        const result = await reponse.json();
+        });
+        const result = await response.json();
+        if (!response.ok) {
+            throw Error(result.message);
+        }
+        setToken(result.token);
+    };
+    const login = async (credentials) => {
+        const response = await fetch(API + "/users/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(credentials),
+        });
+        const result = await response.json();
         if (!response.ok) {
             throw Error(result.message);
         }
         setToken(result.token);
     };
     const account = async () => {
-        const response =await fetch (API = "/users.me",{
-            method: "GET"
+        const response = await fetch (API + "/users.me",{
+            method: "GET",
             headers: 
-            { "authorization": `Bearer ${token}` },
+            { "Authorization": `Bearer ${token}` },
         });
-        const result =await response.json 
+        const result =await response.json();
         if (!response.ok) {
             throw Error(result.message);
         }
-        SetData(result)
+        setData(result)
     };
     const logout = () => {
         setToken(null)
@@ -39,7 +51,7 @@ export function AuthProvider({ children }) {
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function UseAuth() {
+export function useAuth() {
     const context =useContext(AuthContext);
     if (!context) throw Error("useAuth must be used within AuthProvider");
     return context

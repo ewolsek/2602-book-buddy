@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useAuth } from "./authcontext"
+import { useAuth } from "../auth/AuthContext"
 
 export default function Login() {
     const { login } = useAuth();
     const navigate = useNavigate();
 
     const [error, setError] = useState(null);
+    const tryLogin = async (e) => {
+        e.preventDefault();
+        setError(null);
 
-    const tryLogin = async (FormData) => {
+    const tryLogin = async (formData) => {
         setError(null);
         
-        const username = FormData.get("username");
-        const password = FormData.get("password");
+        const username = formData.get("username");
+        const password = formData.get("password");
         try {
             await login({ username, password });
             navigate("/books");
@@ -23,7 +26,7 @@ export default function Login() {
     return (
         <>
         <h1>Log in to your account</h1>
-        <form action={tryLogin}>
+        <form onSubmit={tryLogin}>
             <label>
                 Username 
                 <input type="text" name= "username" required />
@@ -38,4 +41,4 @@ export default function Login() {
                     <Link to="/register">Register Here.</Link>
                     </>
     );
-}
+}}

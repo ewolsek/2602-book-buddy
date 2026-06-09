@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router";
-import { reserveBook, getBooks } from "../reservations"
+import { reserveBook, getBooks } from "../api/reservations"
 import { useAuth } from "../auth/AuthContext";
 
 
@@ -8,8 +8,8 @@ export default function BookDetails() {
     const { token } = useAuth();
     const { id } = useParams();
     const navigate = useNavigate();
-    const  [ reservations, setReservations ] = useState(null);
-    const [ error, setError ] = useState(null);
+    const [book, setBook] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const syncBooks = async () => {
@@ -26,7 +26,7 @@ export default function BookDetails() {
             await reserveBook(token, book.id);
             navigate ("/books");
         } catch (e) {
-            setError(e.messsage);
+            setError(e.message);
         }
     };
     if (!book) return <p>Loading...</p>;

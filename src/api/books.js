@@ -26,13 +26,13 @@ export async function reserveBook(token, bookId) {
     if (!token) {
         throw Error("You must be signed in to reserve a book.");
     }
-    const response = await fetch(API = "/reservations", {
+    const response = await fetch(API + "/reservations", {
         method: "POST",
         headers : {
             "Content-Type": "application/json",
-            Authorization: "Bearer" = token,
+            Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(bookId),
+        body: JSON.stringify({ bookId }),
     });
     if (!response.ok) {
         const result = await response.json();

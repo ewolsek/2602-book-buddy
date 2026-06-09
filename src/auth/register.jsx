@@ -23,7 +23,7 @@ export default function Register() {
             setError(e.message);
         }
     }
-    return 
+    return (
     <div className="register-container">
         <h1>Register</h1>
         <form action={tryRegister}>
@@ -44,4 +44,5 @@ export default function Register() {
             Already have an account? <Link to="/login">Login here</Link>
         </p>
     </div>
+    );
 }

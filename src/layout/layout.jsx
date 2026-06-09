@@ -1,11 +1,11 @@
-import { Outlet } from "react-router";
-
-import NavBar from "./Navbar";
+import { Outlet, useLocation } from "react-router";
+import { useEffect, useState } from "react";
+import NavBar from "./NavBar";
 
 export default function Layout () {
     return (
         <>
-        <Navbar />
+        <NavBar />
         <main>
             <Outlet />
             </main>
